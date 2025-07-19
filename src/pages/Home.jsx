@@ -1,17 +1,36 @@
-import { useState } from "react";
+import { useState , useEffect} from "react";
 import MovieCard from "../components/MovieCard";
+import {getPopularMovies, searchMovies} from "../services/api";
+import '../css/Home.css'
 
 
 
 
 function Home() {
-    const movies = [
-        { id: 1, title: "Saiyaara", release_date: "2025" },
-        { id: 2, title: "F1", release_date: "2025" },
-        { id: 3, title: "Pathaan", release_date: "2023" },
-        { id: 4, title: "John Wick", release_date: "2014" }
-    ];
     const[searchQuery, setSearchQuery]= useState("");
+    const [movies, setMovies]=useState([]);
+    const[error, setError]= useState(null);
+    const[loading, setLoading]= useState(true)
+
+    useEffect(() => {
+        const loadPopularMovies = async () => {
+            try {
+                const popularMovies = await getPopularMovies()
+                setMovies(popularMovies)
+            }
+            catch (err){
+                console.log(err)
+                setError("Failed to load movies..")
+            }
+            finally{
+                setLoading(false)
+            }
+        }
+        loadPopularMovies()
+
+    },[]
+
+)
 
     const handleSearch = (e) => {
         e.preventDefault();
@@ -27,7 +46,7 @@ function Home() {
                 <input 
                 type="text" 
                 placeholder="Search for movies.."
-                className="search-text"
+                className="search-input"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 />
