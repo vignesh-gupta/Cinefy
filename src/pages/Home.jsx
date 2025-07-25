@@ -65,7 +65,8 @@ function Home() {
 
             {error && <div className="errpr-message">{error} </div>}
 
-            {loading ? <div className="loading"><h1>Loading.....</h1></div> : <div className="movies-grid">
+            {loading ? <div className="loading"><h1>Loading.....</h1></div> :
+             <div className="movies-grid">
                 {movies.map((movie) => (
                     // movie.title.toLocaleLowerCase().startsWith(searchQuery) &&()
                     <MovieCard movie={movie} key={movie.id} />
