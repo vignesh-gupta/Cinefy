@@ -42,6 +42,12 @@
   background-color: #f40612;
 }
 
+.loading{
+  display: flex;
+  align-items: center;
+ padding-top: 15%;
+ padding-left: 45%;
+}
 
 @media (max-width: 639px) {
   .home {
@@ -61,3 +67,4 @@
   width: 100%;
   box-sizing: border-box;
 }
+

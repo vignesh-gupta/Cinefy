@@ -1,16 +1,16 @@
-import { useState , useEffect} from "react";
+import { useState, useEffect } from "react";
 import MovieCard from "../components/MovieCard";
-import {getPopularMovies, searchMovies} from "../services/api";
+import { getPopularMovies, searchMovies } from "../services/api";
 import '../css/Home.css'
 
 
 
 
 function Home() {
-    const[searchQuery, setSearchQuery]= useState("");
-    const [movies, setMovies]=useState([]);
-    const[error, setError]= useState(null);
-    const[loading, setLoading]= useState(true)
+    const [searchQuery, setSearchQuery] = useState("");
+    const [movies, setMovies] = useState([]);
+    const [error, setError] = useState(null);
+    const [loading, setLoading] = useState(true)
 
     useEffect(() => {
         const loadPopularMovies = async () => {
@@ -18,19 +18,19 @@ function Home() {
                 const popularMovies = await getPopularMovies()
                 setMovies(popularMovies)
             }
-            catch (err){
+            catch (err) {
                 console.log(err)
                 setError("Failed to load movies..")
             }
-            finally{
+            finally {
                 setLoading(false)
             }
         }
         loadPopularMovies()
 
-    },[]
+    }, []
 
-)
+    )
 
     const handleSearch = (e) => {
         e.preventDefault();
@@ -42,23 +42,28 @@ function Home() {
 
     return (
         <div className="home">
-            <form onSubmit={handleSearch} className="search-form"> 
-                <input 
-                type="text" 
-                placeholder="Search for movies.."
-                className="search-input"
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
+            <form onSubmit={handleSearch} className="search-form">
+                <input
+                    type="text"
+                    placeholder="Search for movies.."
+                    className="search-input"
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
                 />
                 <button type="submit" className="search-button">Search</button>
             </form>
-            <div className="movies-grid">
+
+            {error && <div className="errpr-message">{error} </div>}
+
+            {loading ? <div className="loading"><h1>Loading.....</h1></div> : <div className="movies-grid">
                 {movies.map((movie) => (
                     // movie.title.toLocaleLowerCase().startsWith(searchQuery) &&()
                     <MovieCard movie={movie} key={movie.id} />
                 ))}
 
             </div>
+            }
+
         </div>
     )
 }
